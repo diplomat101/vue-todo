@@ -1,9 +1,10 @@
 'use strict'
 
+/** @type {import('@adonisjs/framework/src/Env')} */
 const Env = use('Env')
 
 module.exports = {
-  
+
   /*
   |--------------------------------------------------------------------------
   | Application Name
@@ -16,7 +17,7 @@ module.exports = {
   */
 
   name: Env.get('APP_NAME', 'AdonisJs'),
-  
+
   /*
   |--------------------------------------------------------------------------
   | App Key
@@ -26,7 +27,7 @@ module.exports = {
   | to encrypted cookies, sessions and other sensitive data.
   |
   */
-  appKey: Env.get('APP_KEY'),
+  appKey: Env.getOrFail('APP_KEY'),
 
   http: {
     /*
@@ -81,6 +82,7 @@ module.exports = {
     */
     jsonpCallback: 'callback',
 
+
     /*
     |--------------------------------------------------------------------------
     | Etag
@@ -93,6 +95,19 @@ module.exports = {
     |
     */
     etag: false
+  },
+
+  views: {
+    /*
+    |--------------------------------------------------------------------------
+    | Cache Views
+    |--------------------------------------------------------------------------
+    |
+    | Define whether or not to cache the compiled view. Set it to true in
+    | production to optimize view loading time.
+    |
+    */
+    cache: Env.get('CACHE_VIEWS', true)
   },
 
   static: {
@@ -207,5 +222,22 @@ module.exports = {
       filename: 'adonis.log',
       level: 'info'
     }
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Generic Cookie Options
+  |--------------------------------------------------------------------------
+  |
+  | The following cookie options are generic settings used by AdonisJs to create
+  | cookies. However, some parts of the application like `sessions` can have
+  | seperate settings for cookies inside `config/session.js`.
+  |
+  */
+  cookie: {
+    httpOnly: true,
+    sameSite: false,
+    path: '/',
+    maxAge: 7200
   }
 }
