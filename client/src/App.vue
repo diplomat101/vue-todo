@@ -6,7 +6,9 @@
         <router-link to="/">Home</router-link> |
         <router-link to="/about">About</router-link>
       </div>
+      <transition name="slide-fade">
         <router-view></router-view>
+      </transition>
     </div>
   </v-app>
 </template>
@@ -39,5 +41,19 @@ export default {
     }
   }
 }
-
+.slide-fade-enter-active {
+  transition: all .4s ease;
+  transition-delay: 0.25s;
+}
+.slide-fade-leave-active {
+  transition: all .25s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter {
+  transform: translateY(-10px);
+  opacity: 0;
+}
+.slide-fade-leave-to{
+  transform: translateY(100px);
+  opacity: 0;
+}
 </style>

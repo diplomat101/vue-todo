@@ -3,12 +3,12 @@
       <v-layout row wrap>
           <v-flex sm6 offset-sm3>
               <div>
-                  <h1>Register</h1>
+                  <h1>Login</h1>
                   <v-text-field
                       label="Email"
                       placeholder="Email"
-                      :value="registerEmail"
-                      @input="setRegisterEmail"
+                      :value="loginEmail"
+                      @input="setLoginEmail"
                   >
                   </v-text-field>
                   <v-text-field
@@ -16,19 +16,19 @@
                       placeholder="Password"
                       type="password"
                       autocomplete="new-password"
-                      :value="registerPassword"
-                      @input="setRegisterPassword"
+                      :value="loginPassword"
+                      @input="setLoginPassword"
                   >
                   </v-text-field>
                   <v-alert
                     type="error"
-                    :value="registerError"
+                    :value="loginError"
                   >
-                  {{registerError}}
+                  {{loginError}}
                   </v-alert>
-                  <v-btn color="blue" dark class="mt-4" @click="register">
-                      <v-icon class="mr-2">account_circle</v-icon>
-                      Register
+                  <v-btn color="blue" dark class="mt-4" @click="login">
+                      <v-icon class="mr-2">fingerprint</v-icon>
+                      Login
                   </v-btn>
               </div>
           </v-flex>
@@ -42,18 +42,18 @@ import { mapState, mapMutations, mapActions } from 'vuex';
 export default {
   computed: {
     ...mapState('authentication', [
-      'registerEmail',
-      'registerPassword',
-      'registerError',
+      'loginEmail',
+      'loginPassword',
+      'loginError',
     ]),
   },
   methods: {
     ...mapMutations('authentication', [
-      'setRegisterEmail',
-      'setRegisterPassword',
+      'setLoginEmail',
+      'setLoginPassword',
     ]),
     ...mapActions('authentication', [
-      'register',
+      'login',
     ]),
   },
 };
