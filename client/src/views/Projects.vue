@@ -1,11 +1,11 @@
 <template>
   <v-container>
-    <v-layout>
-      <v-flex xs4>
+    <v-layout row wrap>
+      <v-flex md4 xs12>
         <Projects></Projects>
       </v-flex>
-      <v-flex xs8 class="pl-4">
-        <Panel title="Tasks">
+      <v-flex md8 xs12>
+        <Panel title="Tasks" class="panel">
           <h1>Testing</h1>
         </Panel>
       </v-flex>
@@ -30,7 +30,22 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('authentication', ['isLoggedIn']),
+    ...mapGetters('authentication', [
+      'isLoggedIn',
+    ]),
   },
 };
 </script>
+
+<style scoped>
+.panel {
+  margin-left: 3%;
+}
+@media (max-width: 960px) {
+  .panel {
+    margin-top: 3%;
+    margin-left: 0;
+  }
+}
+</style>
+
