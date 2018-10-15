@@ -1,11 +1,12 @@
 <template>
-  <v-layout row wrap class="mt-4">
-    <v-flex md8  class="text-xs-left pr-4">
-      <span
+  <v-layout row wrap class="mt-3">
+    <v-flex md9 class="text-xs-left pr-4">
+      <div
         v-if="!isEditMode"
-      >
+        @click="$emit('onClick')"
+        class="title">
         {{title}}
-      </span>
+      </div>
       <v-text-field
         v-if="isEditMode"
         :value="title"
@@ -15,7 +16,7 @@
       >
       </v-text-field>
     </v-flex>
-    <v-flex md4 class="text-xs-right">
+    <v-flex md3 class="text-xs-right">
       <v-icon
         v-if="!isEditMode"
         @click="$emit('onEdit')">
@@ -28,7 +29,7 @@
       </v-icon>
       <v-icon
         @click="$emit('onDelete')"
-        class="ml-4">
+        class="ml-3">
         delete
       </v-icon>
     </v-flex>
@@ -40,10 +41,17 @@ export default {
   props: [
     'isEditMode',
     'title',
+    'active',
     'record',
   ],
 };
 </script>
 
 <style>
+.title {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
 </style>

@@ -2,16 +2,20 @@
     <Panel title="Projects">
       <div
         class="mt-2 project"
-        v-for="project in projects"
+        v-for="(project, index) in projects"
         :key="project.id"
+        :class="{ 'active': activeIndex === index }"
+        @click="setActive(index)"
       >
         <EditableRecord
+          class="project__inner"
           :isEditMode="project.isEditMode"
           :title="project.title"
           @onInput=" setProjectTitle({
             project,
             title: $event,
           })"
+          @onClick="projectClicked(project)"
           @onEdit="setEditMode(project)"
           @onSave="saveProject(project)"
           @onDelete="deleteProject(project)"
@@ -39,6 +43,12 @@ export default {
   mounted() {
     this.fetchProjects();
   },
+  data: () => {
+    return {
+      isActive: false,
+      activeIndex: undefined,
+    };
+  },
   computed: {
     ...mapState('projects', [
       'newProjectName',
@@ -46,16 +56,27 @@ export default {
     ]),
   },
   methods: {
+    projectClicked(project) {
+      this.setCurrentProject(project);
+      this.fetchTasksForProject(project);
+    },
+    setActive(index) {
+      this.activeIndex = index;
+    },
     ...mapMutations('projects', [
       'setEditMode',
       'setProjectTitle',
       'setNewProjectName',
+      'setCurrentProject',
     ]),
     ...mapActions('projects', [
       'createProject',
       'fetchProjects',
       'saveProject',
       'deleteProject',
+    ]),
+    ...mapActions('tasks', [
+      'fetchTasksForProject',
     ]),
   },
 };
@@ -65,8 +86,29 @@ export default {
 .project {
   font-size: 24px;
 }
+.project.active .project__inner {
+  background-color: #dedede;
+  position: relative;
+}
+.project.active .project__inner::before {
+  position: absolute;
+  content: '';
+  width: 16px;
+  height: 16px;
+  right: -8px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+  background-color: inherit;
+}
+.project .flex {
+  align-items: center;
+}
+.project__inner {
+  padding: 5px 10px;
+  border-radius: 2px;
+}
 .project .v-text-field {
-  margin-top: 0;
+  margin-top: 5px;
   padding-top: 0;
 }
 .project .v-input__slot {

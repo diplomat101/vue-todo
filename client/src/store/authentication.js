@@ -11,10 +11,12 @@ export default {
     loginPassword: 'world',
     loginError: null,
     token: null,
+    currentProject: null,
   },
   actions: {
     logout({ commit }) {
       commit('setToken', null);
+      commit('setCurrentProject', null);
       router.push('/login');
     },
     register({ commit, state }) {
@@ -77,6 +79,9 @@ export default {
     },
     setLoginPassword(state, password) {
       state.loginPassword = password;
+    },
+    setCurrentProject(state, project) {
+      state.currentProject = project;
     },
   },
 };

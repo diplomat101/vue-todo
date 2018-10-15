@@ -4,10 +4,8 @@
       <v-flex md4 xs12>
         <Projects></Projects>
       </v-flex>
-      <v-flex md8 xs12>
-        <Panel title="Tasks" class="panel">
-          <h1>Testing</h1>
-        </Panel>
+      <v-flex md8 xs12 v-if="currentProject">
+        <Tasks></Tasks>
       </v-flex>
     </v-layout>
   </v-container>
@@ -16,13 +14,15 @@
 <script>
 // @ is an alias to /src
 
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import Projects from '@/components/Projects.vue';
+import Tasks from '@/components/Tasks.vue';
 import router from '../router';
 
 export default {
   components: {
     Projects,
+    Tasks,
   },
   mounted() {
     if (!this.isLoggedIn) {
@@ -30,6 +30,9 @@ export default {
     }
   },
   computed: {
+    ...mapState('projects', [
+      'currentProject',
+    ]),
     ...mapGetters('authentication', [
       'isLoggedIn',
     ]),

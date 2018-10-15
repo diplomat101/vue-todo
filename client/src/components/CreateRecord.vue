@@ -1,6 +1,6 @@
 <template>
   <v-layout row wrap class="mt-4">
-    <v-flex xs12 lg9 class="pr-3">
+    <v-flex xs12 lg8 xl9 class="pr-3">
       <v-text-field
           :placeholder="placeholder"
           :value="value"
@@ -8,7 +8,7 @@
           @keyup.enter.native="$emit('create')"
       ></v-text-field>
     </v-flex>
-    <v-flex xs12 lg3 class="mb-2">
+    <v-flex xs12 lg4 xl3 class="mb-2">
       <v-btn
           @click="$emit('create')"
           dark

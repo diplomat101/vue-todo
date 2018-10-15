@@ -5,13 +5,14 @@ export default {
   namespaced: true,
   state: {
     projects: [],
+    currentProject: null,
     newProjectName: null,
   },
   actions: {
     saveProject({ commit }, project) {
       return HTTP().patch(`projects/${project.id}`, project)
         .then(() => {
-          commit('saveProject', project);
+          commit('unsetEditMode', project);
         });
     },
     deleteProject({ commit }, project) {
@@ -40,6 +41,9 @@ export default {
 
   },
   mutations: {
+    setCurrentProject(state, project) {
+      state.currentProject = project;
+    },
     setNewProjectName(state, name) {
       state.newProjectName = name;
     },
@@ -47,6 +51,7 @@ export default {
       state.projects.push(project);
     },
     setProjects(state, projects) {
+      state.currentProject = null;
       state.projects = projects;
     },
     setProjectTitle(state, { project, title }) {
@@ -55,10 +60,11 @@ export default {
     setEditMode(state, project) {
       Vue.set(project, 'isEditMode', true);
     },
-    saveProject(state, project) {
+    unsetEditMode(state, project) {
       Vue.set(project, 'isEditMode', false);
     },
     removeProject(state, project) {
+      state.currentProject = null;
       state.projects.splice(state.projects.indexOf(project), 1);
     },
   },
