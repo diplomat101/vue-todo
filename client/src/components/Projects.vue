@@ -5,70 +5,37 @@
         v-for="project in projects"
         :key="project.id"
       >
-        <v-layout row wrap class="mt-4">
-          <v-flex md8  class="text-xs-left pr-4">
-            <span
-              v-if="!project.isEditMode"
-            >
-              {{project.title}}
-            </span>
-            <v-text-field
-              v-if="project.isEditMode"
-              :value="project.title"
-              @input="setProjectTitle({
-                project,
-                title: $event,
-              })"
-              @keyup.enter.native="saveProject(project)"
-              autofocus
-            >
-            </v-text-field>
-          </v-flex>
-          <v-flex md4 class="text-xs-right">
-            <v-icon
-              v-if="!project.isEditMode"
-              @click="setEditMode(project)">
-              edit
-            </v-icon>
-            <v-icon
-              v-if="project.isEditMode"
-              @click="saveProject(project)">
-              check
-            </v-icon>
-            <v-icon
-              @click="deleteProject(project)"
-              class="ml-4">
-              delete
-            </v-icon>
-          </v-flex>
-        </v-layout>
+        <EditableRecord
+          :isEditMode="project.isEditMode"
+          :title="project.title"
+          @onInput=" setProjectTitle({
+            project,
+            title: $event,
+          })"
+          @onEdit="setEditMode(project)"
+          @onSave="saveProject(project)"
+          @onDelete="deleteProject(project)"
+        />
       </div>
-        <v-layout row wrap class="mt-4">
-            <v-flex xs12 lg8>
-                <v-text-field
-                    placeholder="My project name..."
-                    @input="setNewProjectName"
-                    @keyup.enter.native="createProject"
-                    :value="newProjectName"
-                ></v-text-field>
-            </v-flex>
-            <v-flex xs12 lg4 class="mb-2">
-                <v-btn
-                  @click="createProject"
-                  dark
-                  class="mt-2 blue">
-                    <v-icon class="mr-2">add_circle</v-icon>
-                    Create
-                </v-btn>
-            </v-flex>
-        </v-layout>
+      <CreateRecord
+        placeholder="My project name..."
+        @onInput="setNewProjectName"
+        @create="createProject"
+        :value="newProjectName"
+      ></CreateRecord>
     </Panel>
 </template>
 
 <script>
 import { mapMutations, mapState, mapActions } from 'vuex';
+import CreateRecord from '@/components/CreateRecord.vue';
+import EditableRecord from '@/components/EditableRecord.vue';
 
 export default {
+  components: {
+    CreateRecord,
+    EditableRecord,
+  },
   mounted() {
     this.fetchProjects();
   },
@@ -80,9 +47,9 @@ export default {
   },
   methods: {
     ...mapMutations('projects', [
-      'setNewProjectName',
       'setEditMode',
       'setProjectTitle',
+      'setNewProjectName',
     ]),
     ...mapActions('projects', [
       'createProject',
