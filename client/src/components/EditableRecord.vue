@@ -1,6 +1,7 @@
 <template>
   <v-layout row wrap class="mt-3">
     <v-flex md9 class="text-xs-left pr-4">
+      <slot></slot>
       <div
         v-if="!isEditMode"
         @click="$emit('onClick')"

@@ -1,22 +1,29 @@
 <template>
     <Panel title="Tasks" class="panel">
       <div
-        class="mt-2 task"
+        class="task"
         v-for="task in tasks"
         :key="task.id"
       >
         <EditableRecord
-          class="project__inner"
+          class="task__inner"
+          :class="task.completed ? 'completed' : '' "
           :isEditMode="task.isEditMode"
           :title="task.description"
           @onInput=" setTaskDescription({
             task,
             description: $event,
           })"
+          @onClick="checkClicked(task)"
           @onEdit="setEditMode(task)"
           @onSave="saveTask(task)"
           @onDelete="deleteTask(task)"
-        />
+        >
+          <v-icon class="mr-2"
+            @click="checkClicked(task)">
+            {{ task.completed ? 'check_box' : 'check_box_outline_blank'}}
+          </v-icon>
+        </EditableRecord>
       </div>
       <CreateRecord
         placeholder="I need to..."
@@ -53,7 +60,12 @@ export default {
       'setNewTaskName',
       'setEditMode',
       'setTaskDescription',
+      'toggleCompleted',
     ]),
+    checkClicked(task) {
+      this.toggleCompleted(task);
+      this.saveTask(task);
+    },
   },
 };
 </script>
@@ -61,6 +73,21 @@ export default {
 <style>
 .task {
   font-size: 18px;
+}
+.task .title {
+  display: inline-block;
+  vertical-align: middle;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.task__inner {
+  padding: 5px 10px;
+  padding-left: 0;
+}
+.task__inner.completed .title {
+  text-decoration: line-through;
 }
 .task .v-text-field {
   margin-top: 0;
@@ -85,6 +112,11 @@ export default {
 @media (max-width: 600px) {
   .task {
     font-size: 14px;
+  }
+}
+@media (max-width: 600px) {
+  .task .title {
+    max-width: 70%;
   }
 }
 </style>
